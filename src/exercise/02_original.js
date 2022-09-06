@@ -20,23 +20,10 @@ function Toggle(props) {
   // Here, we are cloning each child and passing additional props, which are related to the overall state
   // of the parent component.
   return React.Children.map(props.children, (child, index) => {
-
-    // interessante : avoid passing the custom properties into the children components by distinguishing
-    // if they are just normal dom elements or custom react components.
-    // we can see that the "type" of the React components is a string for normal DOM elements and it's an object for the React components.
-    console.log("Child.type:", child.type);
-
-    if (typeof child.type === "string")
-    {
-      return child;
-    }
-
-
-      return React.cloneElement(child, {
-        on : on,
-        toggle : toggle
-      })
-
+    return React.cloneElement(child, {
+      on : on,
+      toggle : toggle
+    })
   })
 
   // return <Switch on={on} onClick={toggle} />
@@ -66,7 +53,6 @@ function App() {
       <Toggle>
         <ToggleOn>The button is on</ToggleOn>
         <ToggleOff>The button is off</ToggleOff>
-        <span>Hello</span>
         <ToggleButton />
       </Toggle>
     </div>
