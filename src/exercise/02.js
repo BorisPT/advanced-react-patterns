@@ -32,13 +32,13 @@ function Toggle(props) {
 // Accepts `on` and `children` props and returns `children` if `on` is true
 // interessante : decide whether to show the content or not according to the "state" received as a prop.
 const ToggleOn = ({on, children}) => {
-  return on ? <p>{children}</p> : null;
+  return on ? children : null;
 };
 
 // Accepts `on` and `children` props and returns `children` if `on` is false
 // interessante : decide whether to show the content or not according to the "state" received as a prop.
 const ToggleOff = ({on, children}) => {
-  return !on ? <p>{children}</p> : null;
+  return !on ? children : null;
 };
 
 // Accepts `on` and `toggle` props and returns the <Switch /> with those props.
