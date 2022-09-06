@@ -24,6 +24,7 @@ function Toggle(props) {
     // interessante : avoid passing the custom properties into the children components by distinguishing
     // if they are just normal dom elements or custom react components.
     // we can see that the "type" of the React components is a string for normal DOM elements and it's an object for the React components.
+    
     console.log("Child.type:", child.type);
 
     if (typeof child.type === "string")
@@ -31,7 +32,8 @@ function Toggle(props) {
       return child;
     }
 
-
+    // interessante : another option would be to have an array of types and check to see if the child's type 
+    // is in the allowed types and if it is, perform the prop passing, otherwise, just return the child, like above.    
       return React.cloneElement(child, {
         on : on,
         toggle : toggle
