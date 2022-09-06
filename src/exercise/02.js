@@ -16,6 +16,9 @@ function Toggle(props) {
   // 📜 https://reactjs.org/docs/react-api.html#cloneelement
   
   
+  // interessante : React.Children.map applies a method to every child in the collection.
+  // Here, we are cloning each child and passing additional props, which are related to the overall state
+  // of the parent component.
   return React.Children.map(props.children, (child, index) => {
     return React.cloneElement(child, {
       on : on,
@@ -27,16 +30,19 @@ function Toggle(props) {
 }
 
 // Accepts `on` and `children` props and returns `children` if `on` is true
+// interessante : decide whether to show the content or not according to the "state" received as a prop.
 const ToggleOn = ({on, children}) => {
   return on ? <p>{children}</p> : null;
 };
 
 // Accepts `on` and `children` props and returns `children` if `on` is false
+// interessante : decide whether to show the content or not according to the "state" received as a prop.
 const ToggleOff = ({on, children}) => {
   return !on ? <p>{children}</p> : null;
 };
 
 // Accepts `on` and `toggle` props and returns the <Switch /> with those props.
+// interessante : wraps around the Switch component and pass the appropriate state/props
 const ToggleButton = ({on, toggle}) => {
   return <Switch on={on} onClick={toggle} />
 }
