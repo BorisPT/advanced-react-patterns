@@ -7,9 +7,15 @@ import {Switch} from '../switch'
 // 🐨 create your ToggleContext context here
 // 📜 https://reactjs.org/docs/context.html#reactcreatecontext
 
-const ToggleContext = React.createContext(/*{ on : false, toggle : () => {}}*/);
+const ToggleContext = React.createContext({
+  on : false,
+  toggle : () => {}
+});
 
+// interessante : setting a display name for debugging purposes in the components window
+ToggleContext.displayName = "ToggleContext";
 
+// interessante : flexible compound components get the state from the enclosing context and not by passing props around. 
 function Toggle({children}) {
   const [on, setOn] = React.useState(false)
   const toggle = () => setOn(!on)
@@ -25,13 +31,10 @@ function Toggle({children}) {
 
 }
 
+// interessante : custom hook for getting the context.
 const useToggleContext = () => { 
 
   const context = React.useContext(ToggleContext);
-
-  // interessante : if there is no context, throw an error
-  if (!context)
-    throw new Error("Cannot use this component without an enclosing context");
 
   return {
     on : context.on,
@@ -59,22 +62,19 @@ function ToggleButton({...props}) {
   return <Switch on={on} onClick={toggle} {...props} />
 }
 
-// function App() {
-//   return (
-//     <div>
-//       <Toggle>
-//         <ToggleOn>The button is on</ToggleOn>
-//         <ToggleOff>The button is off</ToggleOff>
-//         <div>
-//           <ToggleButton />
-//         </div>
-//       </Toggle>
-//     </div>
-//   )
-// }
-
-// interessante : provoke the error ->  we need to have an enclosing <Toggle> component.
-const App = () => <ToggleButton />
+function App() {
+  return (
+    <div>
+      <Toggle>
+        <ToggleOn>The button is on</ToggleOn>
+        <ToggleOff>The button is off</ToggleOff>
+        <div>
+          <ToggleButton />
+        </div>
+      </Toggle>
+    </div>
+  )
+}
 
 export default App
 
