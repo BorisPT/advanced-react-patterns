@@ -47,8 +47,7 @@ function useToggle({
     if (onChange)
     {
       onChange(toggleReducer({...state, on}, action), action);
-    }
-    
+    }    
   }
 
   const toggle = () => dispatchWithOnChange({type: actionTypes.toggle})
@@ -78,7 +77,18 @@ function useToggle({
   }
 }
 
+function Check(controlledOn, onChange) {
+  
+  if (controlledOn !== null && !onChange ) 
+  {
+    console.error("got on and no onChange");        
+  }
+}
+
 function Toggle({on: controlledOn, onChange}) {
+
+  Check(controlledOn, onChange);
+
   const {on, getTogglerProps} = useToggle({on: controlledOn, onChange})
   const props = getTogglerProps({on})
   return <Switch {...props} />
@@ -104,8 +114,8 @@ function App() {
   return (
     <div>
       <div>
-        <Toggle on={bothOn} onChange={handleToggleChange} />
-        <Toggle on={bothOn} onChange={handleToggleChange} />
+        <Toggle on={bothOn} /*onChange={handleToggleChange}*/ />
+        <Toggle on={bothOn} /*onChange={handleToggleChange}*/ />
       </div>
       {timesClicked > 4 ? (
         <div data-testid="notice">
