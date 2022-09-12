@@ -39,23 +39,6 @@ function useToggle({
   const [state, dispatch] = React.useReducer(reducer, initialState)
   const onIsControlled = controlledOn != null;
 
-
-  // interessante : define the warning message as an useEffect hook.
-  // Also, define the dependencies
-  React.useEffect(() => { 
-
-    console.log({onIsControlled});
-    console.log("onChange", Boolean(onChange));
-
-    if (!onIsControlled)
-    {
-      // nothing to check
-      return;
-    }
-
-    warning(onIsControlled && Boolean(onChange), "The input is controlled, but we don't have an onChange handler. It will be read-only.");
-   }, [onIsControlled, onChange]);
-
   const on = onIsControlled ? controlledOn : state.on;
 
   function dispatchWithOnChange(action) {
@@ -97,8 +80,13 @@ function useToggle({
   }
 }
 
+function Check(controlledOn, onChange) { 
+  warning(controlledOn !== null && !onChange, "got on and no onChange");
+}
 
 function Toggle({on: controlledOn, onChange}) {
+
+  Check(controlledOn, onChange);
 
   const {on, getTogglerProps} = useToggle({on: controlledOn, onChange})
   const props = getTogglerProps({on})
@@ -125,8 +113,8 @@ function App() {
   return (
     <div>
       <div>
-        <Toggle on={bothOn} onChange={handleToggleChange} />
-        <Toggle on={bothOn} /*onChange={handleToggleChange} *//>
+        <Toggle on={bothOn} /*onChange={handleToggleChange}*/ />
+        <Toggle on={bothOn} /*onChange={handleToggleChange}*/ />
       </div>
       {timesClicked > 4 ? (
         <div data-testid="notice">
@@ -141,6 +129,9 @@ function App() {
       <div>
         <div>Uncontrolled Toggle:</div>
         <Toggle
+          onChange={(...args) =>
+            console.info('Uncontrolled Toggle onChange', ...args)
+          }
         />
       </div>
     </div>
