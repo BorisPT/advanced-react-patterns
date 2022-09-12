@@ -20,13 +20,15 @@ function toggleReducer(state, {type, initialState}) {
   }
 }
 
-// 🐨 add a new option called `reducer` that defaults to `toggleReducer`
-function useToggle({initialOn = false} = {}) {
+// interessante : get an object, with two properties as parameter. 
+// each property is defaulted to a specific value. In the case of the reducer, we set a simple toggle function,
+// which can be overriden from the outside by the user of this component. 
+function useToggle({initialOn = false, reducer = toggleReducer} /*= {}*/) {
+
   const {current: initialState} = React.useRef({on: initialOn})
-  // 🐨 instead of passing `toggleReducer` here, pass the `reducer` that's
-  // provided as an option
-  // ... and that's it! Don't forget to check the 💯 extra credit!
-  const [state, dispatch] = React.useReducer(toggleReducer, initialState)
+  
+  // interessante : use the reducer function that is passed as parameter
+  const [state, dispatch] = React.useReducer(reducer, initialState)
   const {on} = state
 
   const toggle = () => dispatch({type: 'toggle'})
@@ -60,6 +62,7 @@ function App() {
   const [timesClicked, setTimesClicked] = React.useState(0)
   const clickedTooMuch = timesClicked >= 4
 
+  // interessante : define a custom reducer function and use it to customize the component's behaviour.
   function toggleStateReducer(state, action) {
     switch (action.type) {
       case 'toggle': {
